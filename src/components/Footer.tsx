@@ -19,9 +19,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToConvenios, activePag
           </a>
         </nav>
 
-        <div className="nav-copy">
-          Tercera Compañía de Bomberos • San Vicente de Tagua Tagua
-        </div>
       </div>
     </footer>
   );

@@ -5,14 +5,15 @@ import { ConvenioCard } from '../components/ConvenioCard';
 import { ConvenioDetailModal } from '../components/ConvenioDetailModal';
 import { FaqAccordion } from '../components/FaqAccordion';
 import { Footer } from '../components/Footer';
-import { faqData } from '../types';
+import { conveniosData, faqData } from '../types';
+import type { ConvenioItem } from '../types';
 
 interface ConveniosViewProps {
   onBackToHome: () => void;
 }
 
 export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedConvenio, setSelectedConvenio] = useState<ConvenioItem | null>(null);
 
   const handleEnrollClick = () => {
     alert("Formulario de inscripción online para Socios Cooperadores");
@@ -26,44 +27,36 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
       <section className="convenios-hero">
         <div className="convenios-hero-overlay"></div>
         <div className="convenios-hero-content">
-          <span className="hero-kicker">Beneficios Exclusivos</span>
-          <h1 className="convenios-hero-title">Convenios para Socios Cooperadores</h1>
+          <h1 className="convenios-hero-title">Convenios Socios Cooperadores</h1>
           <p className="convenios-hero-desc">
-            Como Socio Cooperador de la Tercera Compañía de Bomberos de San Vicente de Tagua Tagua, accedes a beneficios exclusivos gracias a los convenios establecidos con empresas e instituciones que apoyan nuestra labor. Cada convenio es una forma de agradecer tu compromiso con Bomberos y fortalecer el vínculo entre nuestra Compañía y la comunidad.
+            Si eres socio cooperador puedes acceder a todos estos beneficios. Al ser parte de nuestra institución estas ayudando a mantener en óptimas condiciones el material.
           </p>
-          <button onClick={handleEnrollClick} className="btn-primary-lg">
-            Inscribirme Online
-          </button>
         </div>
       </section>
 
-      {/* NUESTROS CONVENIOS & TARJETA */}
+      {/* LISTADO DE CONVENIOS EN GRID MAS GRANDE Y CARDS 1x1 */}
       <section className="convenios-section">
         <div className="section-container">
-          <div className="section-head">
-            <h2>Nuestros Convenios</h2>
-            <p>
-              Conoce los beneficios disponibles para nuestros Socios Cooperadores. Continuamente trabajamos en la incorporación de nuevos convenios con comercios y empresas locales para entregar un mayor valor a quienes apoyan nuestra institución.
-            </p>
-          </div>
-
           <div className="convenios-grid">
-            <ConvenioCard
-              imageSrc="/optica_cosmovision.jpg"
-              title="Óptica CosmoVisión"
-              subtitle="10% de descuento para Socios Cooperadores."
-              description="Obtén un 10% de descuento en productos y servicios seleccionados presentando tu calidad de Socio Cooperador vigente."
-              discountText="10% OFF"
-              onOpenDetails={() => setIsModalOpen(true)}
-            />
+            {conveniosData.map((item) => (
+              <ConvenioCard
+                key={item.id}
+                imageSrc={item.imageSrc}
+                title={item.title}
+                subtitle={item.subtitle}
+                description={item.description}
+                discountText={item.discountText}
+                onOpenDetails={() => setSelectedConvenio(item)}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       {/* MODAL DETALLES */}
       <ConvenioDetailModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        convenio={selectedConvenio}
+        onClose={() => setSelectedConvenio(null)}
         onEnroll={handleEnrollClick}
       />
 
@@ -88,20 +81,20 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
           <div className="steps-grid">
             <div className="step-card">
               <div className="step-number">1</div>
-              <h3>Completa tu inscripción</h3>
-              <p>Completa el formulario de inscripción en línea con tus datos personales. El proceso es rápido y solo toma unos minutos.</p>
+              <h3>Rellena el formulario de inscripción</h3>
+              <p>Completa el formulario de inscripción en línea con tus datos personales y selecciona el monto de tu aporte mensual. El proceso es simple, rápido y solo te tomará unos minutos.</p>
             </div>
 
             <div className="step-card">
               <div className="step-number">2</div>
-              <h3>Activa tu colaboración</h3>
-              <p>Selecciona el monto de tu aporte mensual y confirma tu inscripción. Tu contribución permitirá fortalecer el equipamiento, la capacitación y la respuesta operativa de nuestra Compañía.</p>
+              <h3>Firma el convenio</h3>
+              <p>Una vez recibida tu solicitud, nuestro equipo se pondrá en contacto contigo para coordinar la firma del convenio que formaliza tu incorporación como Socio Cooperador.</p>
             </div>
 
             <div className="step-card">
               <div className="step-number">3</div>
               <h3>Accede a los beneficios</h3>
-              <p>Una vez confirmada tu inscripción, podrás disfrutar de los convenios vigentes y formar parte de la red de personas que apoyan activamente el trabajo de Bomberos.</p>
+              <p>Tras completar el proceso de inscripción, comenzarás a formar parte de nuestra red de Socios Cooperadores y podrás acceder a los convenios y beneficios vigentes, además de contribuir directamente al fortalecimiento de la labor de la Tercera Compañía de Bomberos de San Vicente de Tagua Tagua.</p>
             </div>
           </div>
 
