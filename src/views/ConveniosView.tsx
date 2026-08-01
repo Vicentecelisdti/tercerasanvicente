@@ -27,9 +27,13 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
       <section className="convenios-hero">
         <div className="convenios-hero-overlay"></div>
         <div className="convenios-hero-content">
-          <h1 className="convenios-hero-title">Convenios Socios Cooperadores</h1>
+          <h1 className="convenios-hero-title">CONVENIOS</h1>
           <p className="convenios-hero-desc">
-            Si eres socio cooperador puedes acceder a todos estos beneficios. Al ser parte de nuestra institución estas ayudando a mantener en óptimas condiciones el material.
+            Como <strong>Socio Cooperador</strong> tienes acceso a beneficios y convenios exclusivos.
+            <br /> <strong>Tu aporte es fundamental </strong>para poder realizar nuestra labor.
+            <br />
+            <br /> <p style={{ fontStyle: 'italic' }}>Revisa el listado de convenios y beneficios que tenemos para ti.</p>
+
           </p>
         </div>
       </section>
@@ -71,40 +75,6 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
         </div>
       </section>
 
-      {/* ¿CÓMO SER SOCIO COOPERADOR? */}
-      <section className="convenios-section">
-        <div className="section-container">
-          <div className="section-head">
-            <h2>¿Cómo ser Socio Cooperador?</h2>
-          </div>
-
-          <div className="steps-grid">
-            <div className="step-card">
-              <div className="step-number">1</div>
-              <h3>Rellena el formulario de inscripción</h3>
-              <p>Completa el formulario de inscripción en línea con tus datos personales y selecciona el monto de tu aporte mensual. El proceso es simple, rápido y solo te tomará unos minutos.</p>
-            </div>
-
-            <div className="step-card">
-              <div className="step-number">2</div>
-              <h3>Firma el convenio</h3>
-              <p>Una vez recibida tu solicitud, nuestro equipo se pondrá en contacto contigo para coordinar la firma del convenio que formaliza tu incorporación como Socio Cooperador.</p>
-            </div>
-
-            <div className="step-card">
-              <div className="step-number">3</div>
-              <h3>Accede a los beneficios</h3>
-              <p>Tras completar el proceso de inscripción, comenzarás a formar parte de nuestra red de Socios Cooperadores y podrás acceder a los convenios y beneficios vigentes, además de contribuir directamente al fortalecimiento de la labor de la Tercera Compañía de Bomberos de San Vicente de Tagua Tagua.</p>
-            </div>
-          </div>
-
-          <div className="text-center-cta">
-            <button onClick={handleEnrollClick} className="btn-primary-lg">
-              Inscribirme Online
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* PREGUNTAS FRECUENTES (FAQ) */}
       <section className="convenios-section section-bg-alt">
@@ -120,15 +90,21 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
       {/* SECCIÓN FINAL */}
       <section className="final-cta-section">
         <div className="section-container text-center-max">
-          <h2>Tu apoyo hace la diferencia</h2>
+          <h2>CONVIÉRTETE EN SOCIO COOPERADOR</h2>
           <p>
-            Cada aporte recibido se transforma en equipamiento, capacitación, mantenimiento de nuestras unidades y mejores condiciones para responder a las emergencias de nuestra comunidad.
+            Tu aporte, sin importar el monto, se destina directamente a:
+            <br />
+            <br />• Mantención y mejora de nuestro equipamiento.
+            <br />• Capacitación continua de nuestros voluntarios.
+            <br />• Costos operativos de nuestra compañía.
+            <br />• Implementación de nuevas tecnologías y herramientas para emergencias.
+
+            <br /><br />
+            Recuerda que <strong>cooperar con bomberos es cooperar con tu propia seguridad.</strong>
           </p>
-          <p style={{ marginTop: '0.8rem', fontWeight: 600, color: 'var(--white)' }}>
-            Hazte Socio Cooperador y forma parte de quienes hacen posible que siempre estemos preparados para servir.
-          </p>
+
           <button onClick={handleEnrollClick} className="btn-primary-lg" style={{ marginTop: '2rem' }}>
-            Inscribirme Online
+            Quiero ser Socio.
           </button>
         </div>
       </section>

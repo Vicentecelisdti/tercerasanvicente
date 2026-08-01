@@ -127,15 +127,15 @@ export const faqData: FaqItem[] = [
   },
   {
     q: "¿Cómo puedo inscribirme?",
-    a: "Puedes completar el formulario de inscripción disponible en esta página. Una vez enviada la solicitud, nos pondremos en contacto contigo para finalizar el proceso."
+    a: "Para inscribirte debes acercarte a nuestro cuartel, rellenar el mandato de socio cooperador, definir el monto mensual y firmar el formulario de incorporación."
   },
   {
     q: "¿Cuál es el valor del aporte?",
-    a: "El aporte mensual es voluntario y puede variar según las modalidades disponibles al momento de la inscripción."
+    a: "El aporte mensual lo defines tú, desde un monto mínimo de $3.500."
   },
   {
     q: "¿Cómo accedo a los convenios?",
-    a: "Solo debes mantener tu calidad de Socio Cooperador vigente y presentar la identificación correspondiente cuando utilices un beneficio."
+    a: "Al inscribirte como socio cooperador automaticamente pasas a nuestro registro general de socios cooperadores, presentando tu carnet de identidad al momento de utilizar un convenio es suficiente para acceder al beneficio."
   },
   {
     q: "¿Los convenios cambian?",
