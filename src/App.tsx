@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { MaintenanceView } from './components/MaintenanceView';
+import { HomeView } from './views/HomeView';
 import { ConveniosView } from './views/ConveniosView';
-import { Footer } from './components/Footer';
 
 export const App: React.FC = () => {
   const [currentPath, setCurrentPath] = useState<string>(window.location.pathname);
@@ -23,10 +22,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="maintenance-wrapper">
-      <MaintenanceView />
-      <Footer onNavigateToConvenios={() => navigateTo('/convenios')} />
-    </div>
+    <HomeView onNavigateToConvenios={() => navigateTo('/convenios')} />
   );
 };
 
