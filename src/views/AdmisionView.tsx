@@ -120,7 +120,7 @@ export const AdmisionView: React.FC = () => {
               <div className="material-blog-img-wrapper sequential-img">
                 <img src="/aspirantes.webp" alt="Aspirantes en Instrucción" className="material-img-element" />
                 <div className="sequential-img-caption">
-                  Aspirantes en Instrucción
+                  Aspirantes en Academia
                 </div>
               </div>
 
