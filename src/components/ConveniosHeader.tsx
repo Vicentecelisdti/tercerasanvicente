@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Home, Users, Truck, Flame, Tag, Phone, Menu, X } from 'lucide-react';
+import { lockScroll, unlockScroll } from '../utils/scrollLock';
 
 interface ConveniosHeaderProps {
   activePage?: string;
@@ -7,6 +8,15 @@ interface ConveniosHeaderProps {
 
 export const ConveniosHeader: React.FC<ConveniosHeaderProps> = ({ activePage }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  React.useEffect(() => {
+    if (isMobileMenuOpen) {
+      lockScroll();
+    } else {
+      unlockScroll();
+    }
+    return () => { unlockScroll(); };
+  }, [isMobileMenuOpen]);
 
   const navItems = [
     { id: 'inicio', title: 'INICIO', icon: Home, image: '/maintenance_photo.webp', href: '/' },

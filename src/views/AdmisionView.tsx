@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ShieldCheck, UserPlus, FileCheck, Award, Mail, Phone, Clock, MapPin, Send } from 'lucide-react';
 import { ConveniosHeader } from '../components/ConveniosHeader';
 import { Footer } from '../components/Footer';
@@ -17,6 +17,30 @@ export const AdmisionView: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Scroll ref and state for mobile step dots
+  const stepsRef = useRef<HTMLDivElement>(null);
+  const [activeStepIdx, setActiveStepIdx] = useState(0);
+
+  const handleStepsScroll = () => {
+    const el = stepsRef.current;
+    if (!el) return;
+    const firstCard = el.firstElementChild as HTMLElement;
+    if (!firstCard) return;
+    const cardWidth = firstCard.clientWidth + 20; // card + gap
+    const idx = Math.round(el.scrollLeft / cardWidth);
+    setActiveStepIdx(idx);
+  };
+
+  useEffect(() => {
+    const el = stepsRef.current;
+    if (el) {
+      el.addEventListener('scroll', handleStepsScroll, { passive: true });
+    }
+    return () => {
+      if (el) el.removeEventListener('scroll', handleStepsScroll);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,7 +152,7 @@ export const AdmisionView: React.FC = () => {
           <div className="nosotros-section-container">
             <h2 className="nosotros-section-title process-title-uppercase">PROCESO DE INGRESO</h2>
 
-            <div className="process-steps-grid">
+            <div className="process-steps-grid" ref={stepsRef}>
               <div className="process-step-card">
                 <span className="step-num">01</span>
                 <h4>Postúlate</h4>
@@ -158,6 +182,27 @@ export const AdmisionView: React.FC = () => {
                 <h4>Sé Bombero</h4>
                 <p>Al completar las etapas y requisitos establecidos por la institución, podrás avanzar en tu incorporación como Bombero, previa aprobación de la compañía.</p>
               </div>
+            </div>
+
+            {/* BURBUJAS DE NAVEGACIÓN MÓVIL */}
+            <div className="carousel-dots mobile-only-dots" style={{ marginTop: '1rem' }}>
+              {[0, 1, 2, 3, 4].map((_, i) => (
+                <button
+                  key={i}
+                  className={`carousel-dot ${i === activeStepIdx ? 'active' : ''}`}
+                  onClick={() => {
+                    const el = stepsRef.current;
+                    if (el) {
+                      const firstCard = el.firstElementChild as HTMLElement;
+                      if (firstCard) {
+                        const cardWidth = firstCard.clientWidth + 20;
+                        el.scrollTo({ left: i * cardWidth, behavior: 'smooth' });
+                      }
+                    }
+                  }}
+                  aria-label={`Ir al paso ${i + 1}`}
+                />
+              ))}
             </div>
 
             <p className="process-footer-text">

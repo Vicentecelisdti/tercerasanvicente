@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Users, Truck, Flame, Tag, Phone, ArrowRight, Menu, X, HeartHandshake } from 'lucide-react';
 import { ScrollScrubSequence } from '../components/ScrollScrubSequence';
 import { Footer } from '../components/Footer';
+import { lockScroll, unlockScroll } from '../utils/scrollLock';
 
 export const HomeView: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      lockScroll();
+    } else {
+      unlockScroll();
+    }
+    return () => { unlockScroll(); };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     // Activa inmediatamente la animación de la sección bajada (Más de 67 años de historia)

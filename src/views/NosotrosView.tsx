@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { lockScroll, unlockScroll } from '../utils/scrollLock';
 import { ConveniosHeader } from '../components/ConveniosHeader';
 import { Footer } from '../components/Footer';
 
@@ -69,16 +70,53 @@ export const NosotrosView: React.FC = () => {
   const [selectedSpecialty, setSelectedSpecialty] = useState<SpecialtyItem | null>(null);
   const [actaExpanded, setActaExpanded] = useState(false);
 
+  // Carousel refs and states for scroll bubbles
+  const specialtiesRef = React.useRef<HTMLDivElement>(null);
+  const [activeSpecialtyIdx, setActiveSpecialtyIdx] = React.useState(0);
+
+  const brigadaRef = React.useRef<HTMLDivElement>(null);
+  const [activeBrigadaIdx, setActiveBrigadaIdx] = React.useState(0);
+
+  const handleSpecialtiesScroll = () => {
+    const el = specialtiesRef.current;
+    if (!el) return;
+    const idx = Math.round(el.scrollLeft / el.clientWidth);
+    setActiveSpecialtyIdx(idx);
+  };
+
+  const handleBrigadaScroll = () => {
+    const el = brigadaRef.current;
+    if (!el) return;
+    const firstCard = el.firstElementChild as HTMLElement;
+    if (!firstCard) return;
+    const cardWidth = firstCard.clientWidth + 20; // card width + gap
+    const idx = Math.round(el.scrollLeft / cardWidth);
+    setActiveBrigadaIdx(idx);
+  };
+
   React.useEffect(() => {
     if (selectedSpecialty) {
-      document.body.classList.add('modal-open');
+      lockScroll();
     } else {
-      document.body.classList.remove('modal-open');
+      unlockScroll();
+    }
+    return () => { unlockScroll(); };
+  }, [selectedSpecialty]);
+
+  React.useEffect(() => {
+    const specEl = specialtiesRef.current;
+    if (specEl) {
+      specEl.addEventListener('scroll', handleSpecialtiesScroll, { passive: true });
+    }
+    const brigEl = brigadaRef.current;
+    if (brigEl) {
+      brigEl.addEventListener('scroll', handleBrigadaScroll, { passive: true });
     }
     return () => {
-      document.body.classList.remove('modal-open');
+      if (specEl) specEl.removeEventListener('scroll', handleSpecialtiesScroll);
+      if (brigEl) brigEl.removeEventListener('scroll', handleBrigadaScroll);
     };
-  }, [selectedSpecialty]);
+  }, []);
 
   const specialtiesData: SpecialtyItem[] = [
     {
@@ -118,6 +156,49 @@ export const NosotrosView: React.FC = () => {
         'El <strong>rescate vehicular</strong> corresponde a las operaciones realizadas en accidentes de tránsito donde existen personas <strong>lesionadas, atrapadas o que requieren asistencia especializada</strong> para salir de un vehículo de manera segura.',
         'Estas emergencias requieren una <strong>intervención técnica y coordinada</strong> debido a los distintos riesgos presentes en una colisión. El procedimiento comienza con el <strong>aseguramiento y evaluación de la escena</strong>, identificando los peligros existentes y estableciendo una estrategia de trabajo que permita intervenir de forma segura.',
         'Entre las principales labores se encuentra la <strong>estabilización de los vehículos</strong> involucrados, <strong>control de riesgos, generación de accesos, protección y manejo inicial del paciente</strong> y, cuando es necesario, la <strong>extricación mediante herramientas especializadas</strong>.'
+      ]
+    }
+  ];
+
+  const brigadaData: SpecialtyItem[] = [
+    {
+      id: 'inicios',
+      title: 'Inicios',
+      desc: 'La Brigada emergió como una iniciativa de la oficialidad en 2023, reuniendo a 11 jóvenes y niños...',
+      image: '/iniciosbrigada.webp',
+      fullText: [
+        'La Brigada emergió como una iniciativa de la oficialidad en 2023, reuniendo a 11 jóvenes y niños llenos de ímpetu y el deseo de convertirse en miembros destacados de la Compañía.',
+        'Con el tiempo, su enfoque se ha dirigido hacia la consecución de resultados significativos, consolidando un camino de crecimiento, disciplina y logros constantes.'
+      ]
+    },
+    {
+      id: 'fundacion',
+      title: 'Fundación',
+      desc: 'El 16 de noviembre de 2023 se realizó la ceremonia oficial de fundación, honrando al Director Honorario Carlos Horta Pérez...',
+      image: '/brigada2.webp',
+      fullText: [
+        'El 16 de noviembre de 2023 se realizó la ceremonia oficial de fundación, honrando al Director Honorario Carlos Horta Pérez.',
+        'Presidida por el Director Don Juan Pidal Pino, la ceremonia culminó con una solemne reunión social que marcó un hito histórico para nuestra Compañía y para el futuro relevo generacional.'
+      ]
+    },
+    {
+      id: 'legado',
+      title: 'Legado',
+      desc: 'La Brigada se embarca en un viaje para sembrar en sus miembros el arraigo a nuestra historia...',
+      image: '/legadobrigada.webp',
+      fullText: [
+        'La Brigada se embarca en un viaje para sembrar en sus miembros el arraigo a nuestra historia, tejiendo experiencias que nos enlazan con nuestra trayectoria y los valores que han sido el cimiento de nuestra compañía.',
+        'Buscamos proyectar hacia el futuro la mística del voluntariado y el compromiso social.'
+      ]
+    },
+    {
+      id: 'capacitaciones',
+      title: 'Capacitaciones',
+      desc: 'Desde marzo, cada sábado se han desplegado academias y capacitaciones para moldear a los futuros oficiales y bomberos...',
+      image: '/brigada3.webp',
+      fullText: [
+        'Desde marzo, cada sábado se han desplegado academias y capacitaciones teórico-prácticas para moldear a los futuros oficiales y bomberos.',
+        'Los instructores comparten su valiosa experiencia, pasión y técnicas de rescate y control de incendios, fomentando una inquebrantable camaradería y trabajo en equipo.'
       ]
     }
   ];
@@ -369,7 +450,7 @@ export const NosotrosView: React.FC = () => {
 
             <div className="specialties-carousel-wrapper">
 
-              <div className="specialties-carousel-grid">
+              <div className="specialties-carousel-grid" ref={specialtiesRef}>
                 {specialtiesData.map((spec) => {
                   const Icon = spec.icon;
                   return (
@@ -385,16 +466,34 @@ export const NosotrosView: React.FC = () => {
 
                       <div className="specialty-card-body">
                         <div className="specialty-card-header">
-                          <div className="specialty-icon-circle">
-                            <Icon size={24} />
-                          </div>
+                          {Icon && (
+                            <div className="specialty-icon-circle">
+                              <Icon size={24} />
+                            </div>
+                          )}
                           <h3 className="specialty-card-title">{spec.title}</h3>
                         </div>
                         <p className="specialty-card-desc">{spec.desc}</p>
+                        <span className="specialty-card-ver-mas">Ver más →</span>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+
+              {/* BURBUJAS DE NAVEGACIÓN MÓVIL */}
+              <div className="carousel-dots mobile-only-dots" style={{ marginTop: '1rem' }}>
+                {specialtiesData.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`carousel-dot ${i === activeSpecialtyIdx ? 'active' : ''}`}
+                    onClick={() => {
+                      const el = specialtiesRef.current;
+                      if (el) el.scrollTo({ left: i * el.clientWidth, behavior: 'smooth' });
+                    }}
+                    aria-label={`Ir a especialidad ${i + 1}`}
+                  />
+                ))}
               </div>
 
             </div>
@@ -409,49 +508,50 @@ export const NosotrosView: React.FC = () => {
               <h2 className="history-main-title" style={{ color: '#ffffff' }}>BRIGADA JUVENIL</h2>
             </div>
 
-            {/* CARDS CARRUSEL: cada sección de la brigada como tarjeta deslizable */}
-            <div className="brigada-cards-carousel">
+            {/* CARDS CARRUSEL: cada sección de la brigada como tarjeta deslizable idéntica a especialidades */}
+            <div className="brigada-cards-carousel" ref={brigadaRef} style={{ gap: '1.25rem' }}>
+              {brigadaData.map((item) => (
+                <div
+                  key={item.id}
+                  className="specialty-carousel-card brigada-custom-card"
+                  onClick={() => setSelectedSpecialty(item)}
+                  style={{ flex: '0 0 280px', minWidth: '280px', cursor: 'pointer' }}
+                >
+                  <div className="specialty-card-img-wrap">
+                    <img src={item.image} alt={item.title} className="specialty-card-img" />
+                    <div className="specialty-card-gradient" />
+                  </div>
 
-              <div className="brigada-swipe-card">
-                <div className="brigada-swipe-card-img">
-                  <img src="/iniciosbrigada.webp" alt="Inicios de la Brigada" />
+                  <div className="specialty-card-body">
+                    <div className="specialty-card-header">
+                      <h3 className="specialty-card-title">{item.title}</h3>
+                    </div>
+                    <p className="specialty-card-desc">{item.desc}</p>
+                    <span className="specialty-card-ver-mas">Ver más →</span>
+                  </div>
                 </div>
-                <div className="brigada-swipe-card-body">
-                  <h3 className="brigada-swipe-card-title">Inicios</h3>
-                  <p className="brigada-swipe-card-text">La Brigada emergió como una iniciativa de la oficialidad en 2023, reuniendo a 11 jóvenes y niños llenos de ímpetu y el deseo de convertirse en miembros destacados de la Compañía. Con el tiempo, su enfoque se ha dirigido hacia la consecución de resultados significativos, consolidando un camino de crecimiento y logros.</p>
-                </div>
-              </div>
+              ))}
+            </div>
 
-              <div className="brigada-swipe-card">
-                <div className="brigada-swipe-card-img">
-                  <img src="/brigada2.webp" alt="Fundación de la Brigada" />
-                </div>
-                <div className="brigada-swipe-card-body">
-                  <h3 className="brigada-swipe-card-title">Fundación</h3>
-                  <p className="brigada-swipe-card-text">El 16 de noviembre de 2023 se realizó la ceremonia oficial de fundación, honrando al Director Honorario Carlos Horta Pérez. Presidida por el Director Don Juan Pidal Pino, culminó con una reunión social que marcó un hito histórico para la brigada.</p>
-                </div>
-              </div>
-
-              <div className="brigada-swipe-card">
-                <div className="brigada-swipe-card-img">
-                  <img src="/legadobrigada.webp" alt="Legado de la Brigada" />
-                </div>
-                <div className="brigada-swipe-card-body">
-                  <h3 className="brigada-swipe-card-title">Legado</h3>
-                  <p className="brigada-swipe-card-text">La Brigada se embarca en un viaje para sembrar en sus miembros el arraigo a nuestra historia, tejiendo experiencias que nos enlazan con nuestra trayectoria y los valores que han sido el cimiento de nuestra compañía.</p>
-                </div>
-              </div>
-
-              <div className="brigada-swipe-card">
-                <div className="brigada-swipe-card-img">
-                  <img src="/brigada3.webp" alt="Capacitaciones de la Brigada" />
-                </div>
-                <div className="brigada-swipe-card-body">
-                  <h3 className="brigada-swipe-card-title">Capacitaciones</h3>
-                  <p className="brigada-swipe-card-text">Desde marzo, cada sábado se han desplegado academias y capacitaciones para moldear a los futuros oficiales y bomberos. Los instructores comparten experiencia, pasión y técnicas de rescate, fomentando camaradería y trabajo en equipo.</p>
-                </div>
-              </div>
-
+            {/* BURBUJAS DE NAVEGACIÓN BRIGADA */}
+            <div className="carousel-dots font-dots-white" style={{ marginTop: '1rem' }}>
+              {brigadaData.map((_, i) => (
+                <button
+                  key={i}
+                  className={`carousel-dot ${i === activeBrigadaIdx ? 'active' : ''}`}
+                  onClick={() => {
+                    const el = brigadaRef.current;
+                    if (el) {
+                      const firstCard = el.firstElementChild as HTMLElement;
+                      if (firstCard) {
+                        const cardWidth = firstCard.clientWidth + 20;
+                        el.scrollTo({ left: i * cardWidth, behavior: 'smooth' });
+                      }
+                    }
+                  }}
+                  aria-label={`Ir a tarjeta de brigada ${i + 1}`}
+                />
+              ))}
             </div>
 
           </div>
@@ -536,7 +636,7 @@ export const NosotrosView: React.FC = () => {
 
       </main>
 
-      {/* MODAL DETALLADO DE ESPECIALIDAD AL HACER CLIC */}
+      {/* MODAL DETALLES ESPECIALIDADES */}
       {selectedSpecialty && (
         <div className="specialty-modal-backdrop" onClick={() => setSelectedSpecialty(null)}>
           <div className="specialty-modal-card" onClick={(e) => e.stopPropagation()}>
@@ -545,17 +645,18 @@ export const NosotrosView: React.FC = () => {
               onClick={() => setSelectedSpecialty(null)}
               aria-label="Cerrar ventana"
             >
-              <X size={22} />
+              <X size={18} />
             </button>
 
-            <div className="specialty-modal-header">
-              <div className="specialty-icon-circle modal-icon-circle">
-                <selectedSpecialty.icon size={28} />
-              </div>
-              <div>
-                <span className="section-sub-tag" style={{ margin: 0 }}>ESPECIALIDAD OPERATIVA</span>
-                <h3 className="specialty-modal-title">{selectedSpecialty.title}</h3>
-              </div>
+            <div className="specialty-modal-header-compact">
+              {selectedSpecialty.icon && (
+                <span className="specialty-modal-icon-inline">
+                  <selectedSpecialty.icon size={22} />
+                </span>
+              )}
+              <h3 className="specialty-modal-title-compact">
+                {selectedSpecialty.title.toUpperCase()}
+              </h3>
             </div>
 
             <div className="specialty-modal-body">
