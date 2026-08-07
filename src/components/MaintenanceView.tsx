@@ -5,7 +5,7 @@ export const MaintenanceView: React.FC = () => {
     <main className="hero-split">
       <div className="hero-left">
         <img 
-          src="/logo.png" 
+          src="/logo.webp" 
           alt="Tercera Compañía de Bomberos" 
           className="company-logo"
         />
@@ -21,7 +21,7 @@ export const MaintenanceView: React.FC = () => {
 
       <div className="hero-right">
         <img 
-          src="/maintenance_photo.jpg" 
+          src="/maintenance_photo.webp" 
           alt="Bomberos San Vicente" 
           className="hero-image"
         />
