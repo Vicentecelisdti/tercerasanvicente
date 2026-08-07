@@ -124,7 +124,7 @@ export const conveniosData: ConvenioItem[] = [
 export const faqData: FaqItem[] = [
   {
     q: "¿Qué es un Socio Cooperador?",
-    a: "Es una persona que realiza un aporte económico voluntario y periódico para apoyar el funcionamiento de la Tercera Compañía de Bomberos de San Vicente de Tagua Tagua."
+    a: "Es una persona que realiza un aporte económico mensual a través de un mandato PAC Banco de Chile, para apoyar el funcionamiento de la Tercera Compañía de Bomberos de San Vicente de Tagua Tagua."
   },
   {
     q: "¿Cómo puedo inscribirme?",
