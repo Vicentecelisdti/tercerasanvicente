@@ -8,35 +8,37 @@ import { Footer } from '../components/Footer';
 import { conveniosData, faqData } from '../types';
 import type { ConvenioItem } from '../types';
 
-interface ConveniosViewProps {
-  onBackToHome: () => void;
-}
-
-export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) => {
+export const ConveniosView: React.FC = () => {
   const [selectedConvenio, setSelectedConvenio] = useState<ConvenioItem | null>(null);
 
-  const handleEnrollClick = () => {
-    alert("Formulario de inscripción online para Socios Cooperadores");
-  };
-
   return (
-    <div className="maintenance-wrapper">
-      <ConveniosHeader onBackToHome={onBackToHome} />
+    <div className="maintenance-wrapper convenios-page">
 
-      {/* HERO SECTION DE CONVENIOS */}
-      <section className="convenios-hero">
-        <div className="convenios-hero-overlay"></div>
-        <div className="convenios-hero-content">
-          <h1 className="convenios-hero-title">CONVENIOS</h1>
-          <p className="convenios-hero-desc">
-            Como <strong>Socio Cooperador</strong> tienes acceso a beneficios y convenios exclusivos.
-            <br /> <strong>Tu aporte es fundamental </strong>para poder realizar nuestra labor.
-            <br />
-            <br /> <p style={{ fontStyle: 'italic' }}>Revisa el listado de convenios y beneficios que tenemos para ti.</p>
+      {/* CABECERA CON LOGO A LA IZQUIERDA, TÍTULO CENTRADO Y HAMBURGUESA A LA DERECHA */}
+      <header className="nosotros-sober-header hero-convenios">
+        <div className="nosotros-header-overlay" />
+        <div className="nosotros-header-container hero-three-col-header">
+          <a href="/" className="hero-logo-link" title="Ir a Inicio">
+            <img src="/logo.webp" alt="Tercera Compañía" className="hero-pc-logo" decoding="async" />
+          </a>
+          <h1 className="nosotros-main-title">CONVENIOS</h1>
+          <ConveniosHeader activePage="/convenios" />
+        </div>
+      </header>
 
+      {/* BANNER TEMPORAL DE INACTIVIDAD */}
+      <div className="convenios-temporary-banner">
+        <div className="banner-content">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" className="banner-icon">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <p>
+            Por motivos de captación de nuevos socios cooperadores, los convenios están <strong>temporalmente inactivos</strong>. Te informaremos en cuanto estén disponibles.
           </p>
         </div>
-      </section>
+      </div>
 
       {/* LISTADO DE CONVENIOS EN GRID MAS GRANDE Y CARDS 1x1 */}
       <section className="convenios-section">
@@ -61,7 +63,6 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
       <ConvenioDetailModal
         convenio={selectedConvenio}
         onClose={() => setSelectedConvenio(null)}
-        onEnroll={handleEnrollClick}
       />
 
       {/* ¿QUIÉNES PUEDEN ACCEDER? */}
@@ -70,11 +71,10 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
           <UserCheck size={36} color="var(--primary-red)" style={{ margin: '0 auto 1rem auto' }} />
           <h2>¿Quiénes pueden acceder?</h2>
           <p className="section-lead">
-            Los convenios están disponibles exclusivamente para quienes forman parte del programa de Socios Cooperadores de la Tercera Compañía de Bomberos de San Vicente de Tagua Tagua y mantienen su colaboración al día. De esta manera, buscamos reconocer el apoyo constante de quienes contribuyen al funcionamiento y desarrollo de nuestra institución.
+            Los convenios están disponibles exclusivamente para quienes forman parte del programa de Socios Cooperadores de la Tercera Compañía de Bomberos de San Vicente de Tagua Tagua y mantienen su colaboración al día. De esta manera, buscamos reconocer el apoyo constante de quienes contribuyen al funcionamiento y desarrollo de nuestra compañía.
           </p>
         </div>
       </section>
-
 
       {/* PREGUNTAS FRECUENTES (FAQ) */}
       <section className="convenios-section section-bg-alt">
@@ -102,12 +102,15 @@ export const ConveniosView: React.FC<ConveniosViewProps> = ({ onBackToHome }) =>
             <br /><br />
             Recuerda que <strong>cooperar con bomberos es cooperar con tu propia seguridad.</strong>
           </p>
-
-          <button onClick={handleEnrollClick} className="btn-primary-lg" style={{ marginTop: '2rem' }}>
-            Quiero ser Socio.
-          </button>
+          {/* Botón removido a petición del usuario */}
         </div>
       </section>
+
+      <div className="convenios-help-box text-center-max" style={{ padding: '2rem 1rem', textAlign: 'center', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+        <p style={{ margin: 0, fontSize: '0.95rem', fontWeight: 600, color: '#334155' }}>
+          ¿Problemas o dudas? Comunícate a <a href="mailto:convenios@tercerasanvicente.cl" style={{ color: 'var(--primary-red)', textDecoration: 'none', fontWeight: 700 }}>convenios@tercerasanvicente.cl</a>
+        </p>
+      </div>
 
       <Footer activePage="/convenios" />
     </div>

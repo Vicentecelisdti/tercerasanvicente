@@ -1,5 +1,4 @@
 import React from 'react';
-import { Percent } from 'lucide-react';
 
 interface ConvenioCardProps {
   imageSrc: string;
@@ -20,14 +19,17 @@ export const ConvenioCard: React.FC<ConvenioCardProps> = ({
 }) => {
   return (
     <div className="convenio-card">
-      <div className="card-image-wrap">
-        <img src={imageSrc} alt={title} className="card-image" />
-        <span className="discount-badge"><Percent size={14} /> {discountText}</span>
-      </div>
+      {imageSrc && (
+        <div className="card-image-wrap">
+          <img src={imageSrc} alt={title} className="card-image" />
+        </div>
+      )}
       <div className="card-body">
-        <h3 className="card-title">{title}</h3>
-        <h4 className="card-subtitle">{subtitle}</h4>
-        <p className="card-text">{description}</p>
+        <h3 className="card-title-single" title={title}>{title}</h3>
+        <div className="card-discount-badge-row">
+          <span className="card-discount-badge">{discountText}</span>
+        </div>
+        <p className="card-description-text">{subtitle}</p>
         <button onClick={onOpenDetails} className="btn-card-details">
           Ver detalles
         </button>

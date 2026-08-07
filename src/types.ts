@@ -26,99 +26,99 @@ export interface ConvenioItem {
 export const conveniosData: ConvenioItem[] = [
   {
     id: 1,
-    imageSrc: "/optica_cosmovision.jpg",
-    title: "Óptica CosmoVisión",
-    subtitle: "10% de descuento para Socios Cooperadores.",
-    description: "Obtén un 10% de descuento en productos y servicios seleccionados presentando tu calidad de Socio Cooperador vigente.",
+    imageSrc: "/Cosmovision.webp",
+    title: "Óptica Cosmovisión",
+    subtitle: "10% de descuento para socios y núcleo familiar.",
+    description: "Descuento aplicable en lentes recetados, marcos, cristales y exámenes visuales presentando credencial vigente.",
     discountText: "10% OFF",
-    benefit: "Los Socios Cooperadores vigentes de la Tercera Compañía de Bomberos pueden acceder a un 10% de descuento en productos y servicios seleccionados de Óptica CosmoVisión.",
+    benefit: "10% de descuento en lentes recetados y marcos para el socio cooperador y su grupo familiar directo.",
     requirements: [
-      "Ser Socio Cooperador vigente.",
-      "Mantener las cuotas al día.",
-      "Presentar la identificación correspondiente al momento de solicitar el beneficio."
+      "Presentar carnet de identidad del socio.",
+      "Acreditar parentesco directo para grupo familiar."
     ],
-    conditions: "El beneficio es personal e intransferible. Algunas promociones o servicios específicos podrían no ser acumulables con otros descuentos vigentes del establecimiento."
+    conditions: "Mantener su pago mensual al día."
   },
   {
     id: 2,
-    imageSrc: "/farmacia.jpg",
-    title: "Farmacia San Vicente",
-    subtitle: "15% de descuento en medicamentos.",
-    description: "Descuento en medicamentos de venta directa y recetados en farmacias locales adheridas.",
-    discountText: "15% OFF",
-    benefit: "Acceso preferencial a 15% de descuento en insumos médicos y farmacia general.",
+    imageSrc: "/picaldelrey.webp",
+    title: "Pica del Rey",
+    subtitle: "20% de descuento sin mínimo de compra para socios.",
+    description: "Válido en consumo local en horario de atención de 11 AM a 11 PM.",
+    discountText: "20% OFF",
+    benefit: "20% de descuento en toda la carta, sin requerir monto mínimo de consumo.",
     requirements: [
-      "Ser Socio Cooperador vigente.",
-      "Presentar identificación física o digital de Socio."
+      "Presentar carnet de identidad del socio."
     ],
-    conditions: "No acumulable con convenios de salud ni promociones semanales."
+    conditions: "Mantener su pago mensual al día."
   },
   {
     id: 3,
-    imageSrc: "/gimnasio.jpg",
-    title: "Gimnasio Fit Life",
-    subtitle: "20% OFF en matrícula y planes mensuales.",
-    description: "Precios especiales en membresías semestrales y entrenamiento guiado.",
-    discountText: "20% OFF",
-    benefit: "20% de rebaja en la mensualidad del plan pase libre y entrenamiento funcional.",
+    imageSrc: "/cumbre.svg",
+    title: "Preuniversitario CUMBRE",
+    subtitle: "30% de descuento en arancel para socios y núcleo familiar.",
+    description: "Prepárate para la PAES con un arancel preferencial en planes de estudio seleccionados.",
+    discountText: "30% OFF",
+    benefit: "Descuento del 30% en el arancel mensual para el socio y su núcleo familiar directo.",
     requirements: [
-      "Ser Socio Cooperador con aporte al día.",
-      "Acreditar identidad en recepción."
+      "Presentar carnet de identidad del socio.",
+      "Acreditar parentesco directo para grupo familiar."
     ],
-    conditions: "Válido para planes trimestrales, semestrales o anuales."
+    conditions: "Mantener su pago mensual al día."
   },
   {
     id: 4,
-    imageSrc: "/servicentro.jpg",
-    title: "Servicentro Ruta 66",
-    subtitle: "Descuento en mantenciones y lavados.",
-    description: "Tarifas preferenciales en cambio de aceite, alineación y lavado de vehículos.",
-    discountText: "CONVENIO",
-    benefit: "Descuento en servicios mecánicos preventivos y lavado automotriz.",
+    imageSrc: "/oviedo.webp",
+    title: "Ferretería Ovideo",
+    subtitle: "3% dcto. para socios.",
+    description: "Descuento en herramientas, materiales y artículos de ferretería en general.",
+    discountText: "3% OFF",
+    benefit: "3% de rebaja directa sobre el total de tu boleta en compras presenciales.",
     requirements: [
-      "Presentar acreditación de Socio Cooperador de la 3ª Compañía."
+      "Presentar carnet de identidad del socio."
     ],
-    conditions: "Aplica en sucursal San Vicente de Tagua Tagua."
+    conditions: "Mantener su pago mensual al día."
   },
   {
     id: 5,
-    imageSrc: "/restaurant.jpg",
-    title: "Restaurante La Tagua",
-    subtitle: "12% de descuento en consumo presencial.",
-    description: "Disfruta de la mejor gastronomía local con un descuento especial para ti y tu familia.",
-    discountText: "12% OFF",
-    benefit: "12% de descuento en la cuenta total de consumo en el establecimiento.",
+    imageSrc: "/sebi.webp",
+    title: "Entretenciones Sebi",
+    subtitle: "10% dcto en arriendo de juegos inflables, mecánicos, miniarcade, taca taca",
+    description: "Equipamiento premium para celebraciones y eventos infantiles.",
+    discountText: "10% OFF",
+    benefit: "10% de descuento en el valor de arriendo diario de juegos inflables, mecánicos y miniarcades.",
     requirements: [
-      "Ser Socio Cooperador activo.",
-      "Solicitar la aplicación del convenio antes de la emisión de la cuenta."
+      "Presentar carnet de identidad del socio."
     ],
-    conditions: "Válido de lunes a viernes en horario almuerzo y cena."
+    conditions: "Mantener su pago mensual al día."
+  },
+  {
+    id: 6,
+    imageSrc: "",
+    title: "Rhino SPA",
+    subtitle: "Descuentos preferentes en mantención, recarga y revisión de extintores.",
+    description: "Servicios de seguridad contra incendios certificados y garantizados.",
+    discountText: "PREFERENTE",
+    benefit: "Acceso a tarifas rebajadas en mantención periódica de extintores domiciliarios y comerciales.",
+    requirements: [
+      "Presentar carnet de identidad del socio."
+    ],
+    conditions: "Mantener su pago mensual al día."
+  },
+  {
+    id: 7,
+    imageSrc: "/parabrisas.webp",
+    title: "Parabrisas Bastian",
+    subtitle: "Descuentos preferentes en reparación y instalación de parabrisas.",
+    description: "Soluciones de vidrios automotrices con personal técnico calificado.",
+    discountText: "PREFERENTE",
+    benefit: "Tarifas con descuento especial en reparación de fisuras e instalación de parabrisas de vehículos.",
+    requirements: [
+      "Presentar carnet de identidad del socio."
+    ],
+    conditions: "Mantener su pago mensual al día."
   }
 ];
 
-export const newsData: NewsItem[] = [
-  {
-    id: 1,
-    title: "Capacitación en Rescate Vehicular Pesado",
-    category: "Capacitación",
-    date: "28 Julio, 2026",
-    excerpt: "Jornada técnica de extricación y estabilización de vehículos pesados con la ANB."
-  },
-  {
-    id: 2,
-    title: "Postulaciones Brigada Juvenil 2026",
-    category: "Comunidad",
-    date: "15 Julio, 2026",
-    excerpt: "Formación inicial en valores, disciplina y liderazgo para jóvenes de la comuna."
-  },
-  {
-    id: 3,
-    title: "Nuevas Herramientas para Emergencias",
-    category: "Material Mayor",
-    date: "02 Julio, 2026",
-    excerpt: "Equipamiento de mitigación y motobombas incorporadas a la unidad BX-3."
-  }
-];
 
 export const faqData: FaqItem[] = [
   {

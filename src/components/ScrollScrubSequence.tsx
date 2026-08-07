@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const TOTAL_FRAMES = 59;
 
@@ -12,18 +12,18 @@ export const ScrollScrubSequence: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
 
-  // Refs directos para los 4 bloques de texto
   const text1Ref = useRef<HTMLDivElement>(null);
   const text2Ref = useRef<HTMLDivElement>(null);
   const text3Ref = useRef<HTMLDivElement>(null);
   const text4Ref = useRef<HTMLDivElement>(null);
 
-  const lastLoggedFrame = useRef<number>(-1);
-  const lastLoggedText = useRef<number>(-1);
+  const [loadedCount, setLoadedCount] = useState<number>(0);
+  const [currentFrameSrc, setCurrentFrameSrc] = useState<string>(getFramePath(0));
+  const [debugInfo, setDebugInfo] = useState<string>('');
 
   useEffect(() => {
     console.log(`[ScrubSequence] 🚀 Iniciando pre-carga de ${TOTAL_FRAMES} fotogramas...`);
-    
+
     const loadedImages: HTMLImageElement[] = [];
     let successCount = 0;
     let errorCount = 0;
@@ -35,9 +35,7 @@ export const ScrollScrubSequence: React.FC = () => {
 
       img.onload = () => {
         successCount++;
-        if (i === 0 || i === 29 || i === 58) {
-          console.log(`[ScrubSequence] 🟢 Fotograma ${i + 1}/${TOTAL_FRAMES} cargado (${path}). Total cargados: ${successCount}`);
-        }
+        setLoadedCount(successCount);
         if (successCount + errorCount === TOTAL_FRAMES) {
           console.log(`[ScrubSequence] ✅ Carga completa. Éxitos: ${successCount}, Errores: ${errorCount}`);
         }
@@ -58,55 +56,62 @@ export const ScrollScrubSequence: React.FC = () => {
 
     const drawFrame = (frameIndex: number) => {
       const canvas = canvasRef.current;
+      const path = getFramePath(frameIndex);
+      setCurrentFrameSrc(path);
+
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       let img = imagesRef.current[frameIndex];
-      let usedFallback = false;
 
+      // Si la imagen actual no está lista, buscar alternativa cargada cercana
       if (!img || !img.complete || img.naturalWidth === 0) {
         for (let j = frameIndex - 1; j >= 0; j--) {
           const fallback = imagesRef.current[j];
           if (fallback && fallback.complete && fallback.naturalWidth > 0) {
             img = fallback;
-            usedFallback = true;
             break;
+          }
+        }
+        if (!img || !img.complete || img.naturalWidth === 0) {
+          for (let j = frameIndex + 1; j < TOTAL_FRAMES; j++) {
+            const fallback = imagesRef.current[j];
+            if (fallback && fallback.complete && fallback.naturalWidth > 0) {
+              img = fallback;
+              break;
+            }
           }
         }
       }
 
       if (img && img.complete && img.naturalWidth > 0) {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
         const cw = window.innerWidth;
         const ch = window.innerHeight;
+        const targetWidth = Math.floor(cw * dpr);
+        const targetHeight = Math.floor(ch * dpr);
 
-        if (canvas.width !== cw || canvas.height !== ch) {
-          canvas.width = cw;
-          canvas.height = ch;
+        if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
         }
 
         const iw = img.naturalWidth;
         const ih = img.naturalHeight;
 
-        const scale = Math.max(cw / iw, ch / ih);
+        const scale = Math.max(targetWidth / iw, targetHeight / ih);
         const nw = iw * scale;
         const nh = ih * scale;
-        const cx = (cw - nw) / 2;
-        const cy = (ch - nh) / 2;
+        const cx = (targetWidth - nw) / 2;
+        const cy = (targetHeight - nh) / 2;
 
-        ctx.clearRect(0, 0, cw, ch);
+        ctx.clearRect(0, 0, targetWidth, targetHeight);
         ctx.drawImage(img, cx, cy, nw, nh);
-
-        if (lastLoggedFrame.current !== frameIndex) {
-          lastLoggedFrame.current = frameIndex;
-          if (usedFallback) {
-            console.warn(`[ScrubSequence] ⚠️ Renderizando fotograma ${frameIndex + 1} usando fallback.`);
-          } else {
-            console.log(`[ScrubSequence] 🎬 Dibujando fotograma ${frameIndex + 1}/${TOTAL_FRAMES}`);
-          }
-        }
       }
     };
+
+    const textBlocks = [text1Ref, text2Ref, text3Ref, text4Ref];
 
     const updateTextBlocks = (p: number) => {
       let activeIndex = 1;
@@ -115,15 +120,21 @@ export const ScrollScrubSequence: React.FC = () => {
       else if (p >= 0.50 && p < 0.75) activeIndex = 3;
       else if (p >= 0.75 && p <= 1.0) activeIndex = 4;
 
-      if (text1Ref.current) text1Ref.current.classList.toggle('active', activeIndex === 1);
-      if (text2Ref.current) text2Ref.current.classList.toggle('active', activeIndex === 2);
-      if (text3Ref.current) text3Ref.current.classList.toggle('active', activeIndex === 3);
-      if (text4Ref.current) text4Ref.current.classList.toggle('active', activeIndex === 4);
+      textBlocks.forEach((ref, index) => {
+        const blockIndex = index + 1;
+        if (!ref.current) return;
 
-      if (lastLoggedText.current !== activeIndex) {
-        lastLoggedText.current = activeIndex;
-        console.log(`[ScrubSequence] 💬 Frase activa -> Frase ${activeIndex} (Progreso: ${(p * 100).toFixed(1)}%)`);
-      }
+        if (blockIndex === activeIndex) {
+          ref.current.classList.add('active');
+          ref.current.classList.remove('exit-up');
+        } else if (blockIndex < activeIndex) {
+          ref.current.classList.remove('active');
+          ref.current.classList.add('exit-up');
+        } else {
+          ref.current.classList.remove('active');
+          ref.current.classList.remove('exit-up');
+        }
+      });
     };
 
     const handleScroll = () => {
@@ -132,29 +143,21 @@ export const ScrollScrubSequence: React.FC = () => {
         if (!containerRef.current) return;
 
         const container = containerRef.current;
+        const rect = container.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
 
-        // Calcular posición absoluta de scroll independiente del bounding box
-        let elementTop = 0;
-        let obj: HTMLElement | null = container;
-        while (obj) {
-          elementTop += obj.offsetTop;
-          obj = obj.offsetParent as HTMLElement;
-        }
-
-        const elementHeight = container.offsetHeight;
-        const totalScrollable = elementHeight - viewportHeight;
-
+        const totalScrollable = rect.height - viewportHeight;
         if (totalScrollable <= 0) return;
 
-        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-        const currentScroll = scrollY - elementTop;
+        const currentScroll = -rect.top;
         const currentProgress = Math.min(1, Math.max(0, currentScroll / totalScrollable));
 
         const frameIndex = Math.min(
           TOTAL_FRAMES - 1,
           Math.max(0, Math.floor(currentProgress * TOTAL_FRAMES))
         );
+
+        setDebugInfo(`Frame: ${frameIndex + 1}/${TOTAL_FRAMES} | Progreso: ${(currentProgress * 100).toFixed(0)}%`);
 
         drawFrame(frameIndex);
         updateTextBlocks(currentProgress);
@@ -163,46 +166,71 @@ export const ScrollScrubSequence: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll, { passive: true });
-    document.addEventListener('scroll', handleScroll, { passive: true });
 
     handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
-      document.removeEventListener('scroll', handleScroll);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
+  const progressPercent = Math.round((loadedCount / TOTAL_FRAMES) * 100);
+
   return (
     <section ref={containerRef} className="scrub-section">
       <div className="scrub-sticky">
+        {/* Canvas de renderizado principal */}
         <canvas ref={canvasRef} className="scrub-canvas" />
+
+        {/* Fallback de imagen por si el canvas no renderiza en algún browser */}
+        <img
+          src={currentFrameSrc}
+          alt="Fotograma de la secuencia"
+          className="scrub-canvas-fallback"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            display: 'block'
+          }}
+        />
+
+        {/* Indicador de Carga mientras se precargan fotogramas */}
+        {loadedCount < TOTAL_FRAMES && (
+          <div className="scrub-loader">
+            <div className="scrub-spinner"></div>
+            <span>Cargando secuencia ({progressPercent}%)</span>
+          </div>
+        )}
 
         <div className="scrub-overlay">
           {/* Parte 1 */}
           <div ref={text1Ref} className="scrub-text-block active">
-            <span className="scrub-tag">TERCERA COMPAÑÍA</span>
-            <h3 className="scrub-title">ESTAMOS SIEMPRE LISTOS.</h3>
+            <span className="scrub-tag">EN LA TERCERA COMPAÑÍA</span>
+            <h3 className="scrub-title">ESTAMOS SIEMPRE LISTOS</h3>
           </div>
 
           {/* Parte 2 */}
           <div ref={text2Ref} className="scrub-text-block">
-            <span className="scrub-tag">VOCACIÓN Y COMPROMISO</span>
-            <h3 className="scrub-title">PARA CUALQUIER EMERGENCIA</h3>
+            <span className="scrub-tag">SIN IMPORTAR LA EMERGENCIA</span>
+            <h3 className="scrub-title">DAREMOS NUESTRO 100%</h3>
           </div>
 
           {/* Parte 3 */}
           <div ref={text3Ref} className="scrub-text-block">
-            <span className="scrub-tag">RESPUESTA 24/7</span>
-            <h3 className="scrub-title">A CUALQUIER HORA</h3>
+            <span className="scrub-tag">A TODA HORA Y EN TODO MOMENTO</span>
+            <h3 className="scrub-title">CUENTA CON NOSOTROS</h3>
           </div>
 
           {/* Parte 4 */}
           <div ref={text4Ref} className="scrub-text-block">
-            <span className="scrub-tag">AL SERVICIO DE LA COMUNIDAD</span>
-            <h3 className="scrub-title">EN CUALQUIER LUGAR</h3>
+            <span className="scrub-tag">PORQUE DESDE 1959 SERVIMOS</span>
+            <h3 className="scrub-title">A NUESTRA COMUNIDAD</h3>
           </div>
         </div>
       </div>

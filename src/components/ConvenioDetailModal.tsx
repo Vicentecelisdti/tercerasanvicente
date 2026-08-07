@@ -5,20 +5,29 @@ import type { ConvenioItem } from '../types';
 interface ConvenioDetailModalProps {
   convenio: ConvenioItem | null;
   onClose: () => void;
-  onEnroll: () => void;
 }
 
 export const ConvenioDetailModal: React.FC<ConvenioDetailModalProps> = ({
   convenio,
-  onClose,
-  onEnroll
+  onClose
 }) => {
+  React.useEffect(() => {
+    if (convenio) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [convenio]);
+
   if (!convenio) return null;
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
+        <button className="modal-close" onClick={onClose} aria-label="Cerrar modal">
           <X size={20} />
         </button>
         
@@ -34,26 +43,18 @@ export const ConvenioDetailModal: React.FC<ConvenioDetailModalProps> = ({
           </div>
 
           <div className="detail-block">
-            <h3>Requisitos</h3>
+            <h3>Condiciones y Requisitos</h3>
             <ul>
               {convenio.requirements.map((req, i) => (
                 <li key={i}>
                   <CheckCircle2 size={16} color="var(--primary-red)" /> {req}
                 </li>
               ))}
+              <li>
+                <CheckCircle2 size={16} color="var(--primary-red)" /> {convenio.conditions}
+              </li>
             </ul>
           </div>
-
-          <div className="detail-block">
-            <h3>Condiciones</h3>
-            <p>{convenio.conditions}</p>
-          </div>
-        </div>
-
-        <div className="modal-footer">
-          <button onClick={onEnroll} className="btn-primary-full">
-            Quiero ser Socio Cooperador
-          </button>
         </div>
       </div>
     </div>
