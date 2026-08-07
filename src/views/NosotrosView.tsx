@@ -536,7 +536,7 @@ export const NosotrosView: React.FC = () => {
 
       </main>
 
-      {/* MODAL DETALLADO DE ESPECIALIDAD AL HACER CLIC */}
+      {/* MODAL DETALLES ESPECIALIDADES */}
       {selectedSpecialty && (
         <div className="specialty-modal-backdrop" onClick={() => setSelectedSpecialty(null)}>
           <div className="specialty-modal-card" onClick={(e) => e.stopPropagation()}>
@@ -545,17 +545,16 @@ export const NosotrosView: React.FC = () => {
               onClick={() => setSelectedSpecialty(null)}
               aria-label="Cerrar ventana"
             >
-              <X size={22} />
+              <X size={18} />
             </button>
 
-            <div className="specialty-modal-header">
-              <div className="specialty-icon-circle modal-icon-circle">
-                <selectedSpecialty.icon size={28} />
-              </div>
-              <div>
-                <span className="section-sub-tag" style={{ margin: 0 }}>ESPECIALIDAD OPERATIVA</span>
-                <h3 className="specialty-modal-title">{selectedSpecialty.title}</h3>
-              </div>
+            <div className="specialty-modal-header-compact">
+              <span className="specialty-modal-icon-inline">
+                <selectedSpecialty.icon size={22} />
+              </span>
+              <h3 className="specialty-modal-title-compact">
+                {selectedSpecialty.title.toUpperCase()}
+              </h3>
             </div>
 
             <div className="specialty-modal-body">

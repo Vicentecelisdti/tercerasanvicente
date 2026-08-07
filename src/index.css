@@ -2501,8 +2501,8 @@ body.modal-open {
 }
 
 .history-lead-p {
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-size: 0.98rem;
+  line-height: 1.65;
   color: #334155;
   margin-bottom: 0.85rem;
   text-align: justify;
@@ -3386,8 +3386,8 @@ body.modal-open {
 }
 
 .editorial-lead-p {
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-size: 0.98rem;
+  line-height: 1.65;
   color: #334155;
   margin-bottom: 1.5rem;
   font-weight: 500;
@@ -5626,6 +5626,90 @@ body.modal-open {
 .official-email-item-compact .contact-card-link:hover {
   text-decoration: underline;
 }
+
+/* ============================================================
+   NOSOTROS: COMPACT SPECIALTY MODAL
+   ============================================================ */
+.specialty-modal-header-compact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.specialty-modal-icon-inline {
+  color: var(--primary-red);
+  background: rgba(220, 38, 38, 0.08);
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.specialty-modal-title-compact {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0F1322;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Override specialty modal spacing & typography on mobile to make it much less tall */
+@media (max-width: 768px) {
+  .specialty-modal-card {
+    padding: 1.25rem 1.25rem 1.5rem 1.25rem !important; /* Smaller paddings to reduce height */
+    width: calc(100% - 1.5rem) !important;
+    margin: 0.75rem !important;
+    border-radius: 12px;
+  }
+  
+  .specialty-modal-header-compact {
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    gap: 8px;
+  }
+  
+  .specialty-modal-icon-inline {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .specialty-modal-icon-inline svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  
+  .specialty-modal-title-compact {
+    font-size: 1.05rem; /* Smaller title text */
+  }
+
+  .specialty-modal-body {
+    font-size: 0.88rem; /* Smaller content text to fit screen height */
+    line-height: 1.6;
+    gap: 0.75rem;
+  }
+
+  .specialty-modal-close {
+    top: 0.85rem;
+    right: 0.85rem;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .specialty-modal-close svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
 
 
 
