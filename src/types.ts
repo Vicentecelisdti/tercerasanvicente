@@ -24,6 +24,7 @@ export interface ConvenioItem {
 }
 
 export const conveniosData: ConvenioItem[] = [
+  /*
   {
     id: 1,
     imageSrc: "/Cosmovision.webp",
@@ -116,7 +117,7 @@ export const conveniosData: ConvenioItem[] = [
       "Presentar carnet de identidad del socio."
     ],
     conditions: "Mantener su pago mensual al día."
-  }
+  }*/
 ];
 
 
