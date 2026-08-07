@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, CheckCircle2 } from 'lucide-react';
 import type { ConvenioItem } from '../types';
+import { lockScroll, unlockScroll } from '../utils/scrollLock';
 
 interface ConvenioDetailModalProps {
   convenio: ConvenioItem | null;
@@ -13,13 +14,11 @@ export const ConvenioDetailModal: React.FC<ConvenioDetailModalProps> = ({
 }) => {
   React.useEffect(() => {
     if (convenio) {
-      document.body.classList.add('modal-open');
+      lockScroll();
     } else {
-      document.body.classList.remove('modal-open');
+      unlockScroll();
     }
-    return () => {
-      document.body.classList.remove('modal-open');
-    };
+    return () => { unlockScroll(); };
   }, [convenio]);
 
   if (!convenio) return null;

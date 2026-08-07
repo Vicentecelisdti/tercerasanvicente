@@ -37,7 +37,10 @@ body {
 }
 
 body.modal-open {
-  overflow: hidden;
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  touch-action: none;
 }
 
 /* MAINTENANCE SCREEN */
@@ -1633,9 +1636,10 @@ body.modal-open {
   }
 
   .tercera-title {
-    font-size: clamp(2.2rem, 7.5vw, 3.2rem);
+    font-size: clamp(1.6rem, 8vw, 3rem);
     line-height: 1.08;
     margin-bottom: 0.5rem;
+    white-space: nowrap;
   }
 
   .hero-subtitle {
@@ -5642,10 +5646,7 @@ body.modal-open {
 
 .specialty-modal-icon-inline {
   color: var(--primary-red);
-  background: rgba(220, 38, 38, 0.08);
-  border-radius: 8px;
-  width: 38px;
-  height: 38px;
+  background: transparent; /* Sin fondo rojo, se ve limpio y claro */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5678,8 +5679,8 @@ body.modal-open {
   }
   
   .specialty-modal-icon-inline {
-    width: 32px;
-    height: 32px;
+    width: auto;
+    height: auto;
   }
   
   .specialty-modal-icon-inline svg {
@@ -5709,6 +5710,82 @@ body.modal-open {
     height: 14px;
   }
 }
+
+/* ============================================================
+   SPECIALTY CARD: VER MAS BUTTON AND HOVER TRANSITIONS
+   ============================================================ */
+.specialty-card-ver-mas {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary-red);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: auto; /* Empuja al fondo del contenedor */
+  padding-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.specialty-carousel-card:hover .specialty-card-ver-mas {
+  transform: translateX(4px);
+}
+
+/* ============================================================
+   CAROUSEL DOTS RESPONSIVE AND COLOR CUSTOMIZATIONS
+   ============================================================ */
+.mobile-only-dots {
+  display: none !important;
+}
+
+@media (max-width: 860px) {
+  .mobile-only-dots {
+    display: flex !important;
+  }
+}
+
+.font-dots-white .carousel-dot {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.font-dots-white .carousel-dot.active {
+  background: #ffffff !important;
+  transform: scale(1.3);
+}
+
+/* Forzar altura completa y scroll en brigada carrusel */
+.brigada-cards-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 1.25rem;
+  padding-bottom: 1.5rem;
+  width: 100%;
+}
+
+.brigada-cards-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.brigada-custom-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 14px !important;
+  color: #0F1322 !important;
+}
+
+.brigada-custom-card .specialty-card-title {
+  color: #0F1322 !important;
+}
+
+.brigada-custom-card .specialty-card-desc {
+  color: #475569 !important;
+}
+
 
 
 

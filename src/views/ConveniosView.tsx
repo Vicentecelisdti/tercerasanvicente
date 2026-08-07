@@ -7,9 +7,19 @@ import { FaqAccordion } from '../components/FaqAccordion';
 import { Footer } from '../components/Footer';
 import { conveniosData, faqData } from '../types';
 import type { ConvenioItem } from '../types';
+import { lockScroll, unlockScroll } from '../utils/scrollLock';
 
 export const ConveniosView: React.FC = () => {
   const [selectedConvenio, setSelectedConvenio] = useState<ConvenioItem | null>(null);
+
+  React.useEffect(() => {
+    if (selectedConvenio) {
+      lockScroll();
+    } else {
+      unlockScroll();
+    }
+    return () => { unlockScroll(); };
+  }, [selectedConvenio]);
 
   return (
     <div className="maintenance-wrapper convenios-page">
