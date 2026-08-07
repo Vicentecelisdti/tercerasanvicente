@@ -8,6 +8,7 @@ import { Footer } from '../components/Footer';
 import { conveniosData, faqData } from '../types';
 import type { ConvenioItem } from '../types';
 import { lockScroll, unlockScroll } from '../utils/scrollLock';
+import { Users, Truck, Flame, Tag, Phone, ArrowRight, Menu, X, HeartHandshake } from 'lucide-react';
 
 export const ConveniosView: React.FC = () => {
   const [selectedConvenio, setSelectedConvenio] = useState<ConvenioItem | null>(null);
@@ -97,22 +98,35 @@ export const ConveniosView: React.FC = () => {
         </div>
       </section>
 
-      {/* SECCIÓN FINAL */}
-      <section className="final-cta-section">
-        <div className="section-container text-center-max">
-          <h2>CONVIÉRTETE EN SOCIO COOPERADOR</h2>
-          <p>
-            Tu aporte, sin importar el monto, se destina directamente a:
-            <br />
-            <br />• Mantención y mejora de nuestro equipamiento.
-            <br />• Capacitación continua de nuestros voluntarios.
-            <br />• Costos operativos de nuestra compañía.
-            <br />• Implementación de nuevas tecnologías y herramientas para emergencias.
+      {/* SECCIÓN COOPERA CON BOMBEROS */}
+      <section id="coopera" className="coopera-section">
+        <div className="coopera-container ">
+          <h2 className="coopera-title">¡SUMATE A NUESTROS SOCIOS COOPERADORES!</h2>
 
-            <br /><br />
-            Recuerda que <strong>cooperar con bomberos es cooperar con tu propia seguridad.</strong>
+          <p className="coopera-intro">
+            Tu colaboración es fundamental para poder responder a emergencias.
+            <br />
+            Cada aporte nos permite:
           </p>
-          {/* Botón removido a petición del usuario */}
+
+          <div className="coopera-grid">
+            <div className="coopera-card">
+              <span className="coopera-num">01</span>
+              <p>Realizar mantención y mejora de nuestro equipamiento.</p>
+            </div>
+            <div className="coopera-card">
+              <span className="coopera-num">02</span>
+              <p>Capacitar a nuestros voluntarios constantemente.</p>
+            </div>
+            <div className="coopera-card">
+              <span className="coopera-num">03</span>
+              <p>Financiar los costos operativos de respuesta ante emergencias.</p>
+            </div>
+            <div className="coopera-card">
+              <span className="coopera-num">04</span>
+              <p>Implementar nuevas tecnologías y herramientas para una mejor respuesta.</p>
+            </div>
+          </div>
         </div>
       </section>
 
